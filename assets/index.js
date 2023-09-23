@@ -6,3 +6,4 @@ export const menu = require('./icons/menu.png');
 export const share = require('./icons/share.png');
 export const filter = require('./icons/sort.png');
 export const safety = require('./icons/shield.png');
+export const square = require('./icons/square.png');

@@ -19,6 +19,7 @@ const MovieScreen = () => {
   const moviesData = route.params?.movies;
   const [selectedDate, setSelectedDate] = useState('');
   const [mall, setMall] = useState([]);
+  const [seatsData, setSeatsData] = useState([]);
 
   const mallsdata = malls;
   return (
@@ -103,7 +104,10 @@ const MovieScreen = () => {
         <Pressable
           style={{margin: 10}}
           key={index}
-          onPress={() => setMall(item?.name)}>
+          onPress={() => {
+            setMall(item?.name);
+            setSeatsData(item.tableData);
+          }}>
           <Text style={{fontSize: 18, fontWeight: '500'}}>{item.name}</Text>
           {mall.includes(item.name) ? (
             <FlatList
@@ -111,12 +115,23 @@ const MovieScreen = () => {
               data={item?.showtimes}
               renderItem={({item, index}) => (
                 <Pressable
+                  onPress={() => {
+                    if (selectedDate != '') {
+                      navigation.navigate('Theatre', {
+                        mall: mall,
+                        name: route.params?.movies?.name,
+                        timeSelected: item,
+                        selectedDate: selectedDate,
+                        tableSeats: seatsData,
+                      });
+                    }
+                  }}
                   key={index}
                   style={{
                     borderColor: 'red',
                     borderWidth: 0.8,
                     width: 100,
-                    borderRadius: 3,
+                    borderRadius: 5,
                     margin: 5,
                     padding: 5,
                     marginTop: 20,
