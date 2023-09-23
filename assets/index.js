@@ -1,4 +1,5 @@
 export const homeImage = require('./images/HomeImage.png');
+export const splash = require('./images/Splash.png');
 export const search = require('./icons/search.png');
 export const arrow = require('./icons/arrow.png');
 export const check = require('./icons/check.png');

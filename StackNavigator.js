@@ -6,12 +6,18 @@ import HomeScreen from './screens/HomeScreen';
 import MovieScreen from './screens/MovieScreen';
 import TheatreSreen from './screens/TheatreSreen';
 import TicketStatus from './screens/TicketStatus';
+import Splash from './screens/Splash';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
