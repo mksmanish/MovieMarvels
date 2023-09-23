@@ -1,19 +1,28 @@
-import {StyleSheet, Text, View, Image, Pressable, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  FlatList,
+  Alert,
+} from 'react-native';
 import React, {useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {arrow, share, square} from '../assets';
 import moment from 'moment';
 import {MoviesCards} from '../Context';
+import {useStripe} from '@stripe/stripe-react-native';
 
 const TheatreSreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {seats, setSeats} = useContext(MoviesCards);
+  const {seats, setSeats, occupied, setOccupied} = useContext(MoviesCards);
+  const stripe = useStripe();
   const fee = 90;
   const noOfSeats = seats.length;
   const total = fee * noOfSeats;
-  console.log(total);
 
   const OnSeatSelected = item => {
     const seatSelected = seats.find(seat => seat === item);
@@ -21,6 +30,44 @@ const TheatreSreen = () => {
       setSeats(seats.filter(seat => seat !== item));
     } else {
       setSeats([...seats, item]);
+    }
+  };
+
+  const onPressPayment = async item => {
+    const response = await fetch('http://localhost:8080/payment', {
+      method: 'POST',
+      body: JSON.stringify({
+        amount: Math.floor(total),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) return Alert.alert(data.message);
+    const clientSecret = data.clientSecret;
+    const initSheet = await stripe.initPaymentSheet({
+      paymentIntentClientSecret: clientSecret,
+    });
+    if (initSheet.error) return Alert.alert(initSheet.error.message);
+    const presentSheet = await stripe.presentPaymentSheet({
+      clientSecret,
+    });
+    if (presentSheet.error) return Alert.alert(presentSheet.error.message);
+    else {
+      occupied.push(...seats);
+      navigation.navigate('Ticket', {
+        name: route.params.name,
+        mall: route.params.mall,
+        timeSelected: route.params.timeSelected,
+        total: total,
+        //   image: route.params.image,
+        date: route.params.selectedDate,
+        // selectedSeats: displaySeats,
+        // priceValue: priceValue,
+      });
+      setSeats([]);
     }
   };
 
@@ -231,7 +278,7 @@ const TheatreSreen = () => {
             {seats.length} seats selected
           </Text>
         ) : null}
-        <Pressable>
+        <Pressable onPress={() => onPressPayment()}>
           <Text style={{fontSize: 22, fontWeight: '600', color: 'white'}}>
             Pay {total}
           </Text>
