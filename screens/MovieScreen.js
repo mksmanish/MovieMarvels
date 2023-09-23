@@ -123,6 +123,7 @@ const MovieScreen = () => {
                         timeSelected: item,
                         selectedDate: selectedDate.toISOString(),
                         tableSeats: seatsData,
+                        image: route.params?.movies.image,
                       });
                     }
                   }}

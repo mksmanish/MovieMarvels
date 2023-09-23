@@ -22,7 +22,9 @@ const TheatreSreen = () => {
   const stripe = useStripe();
   const fee = 90;
   const noOfSeats = seats.length;
-  const total = fee * noOfSeats;
+  const total = fee * noOfSeats + 90;
+  const displaySeats = [...seats];
+  const priceValue = noOfSeats * 90;
 
   const OnSeatSelected = item => {
     const seatSelected = seats.find(seat => seat === item);
@@ -62,10 +64,10 @@ const TheatreSreen = () => {
         mall: route.params.mall,
         timeSelected: route.params.timeSelected,
         total: total,
-        //   image: route.params.image,
+        image: route.params.image,
         date: route.params.selectedDate,
-        // selectedSeats: displaySeats,
-        // priceValue: priceValue,
+        selectedSeats: displaySeats,
+        priceValue: priceValue,
       });
       setSeats([]);
     }
@@ -148,7 +150,11 @@ const TheatreSreen = () => {
             onPress={() => OnSeatSelected(item)}
             style={{
               margin: 12,
-              backgroundColor: seats.includes(item) ? 'orange' : null,
+              backgroundColor: seats.includes(item)
+                ? 'orange'
+                : occupied.includes(item)
+                ? 'gray'
+                : 'white',
               borderWidth: 1,
               padding: 6,
               borderRadius: 6,
@@ -160,6 +166,15 @@ const TheatreSreen = () => {
                   fontSize: 15,
                   fontWeight: '500',
                   backgroundColor: 'orange',
+                }}>
+                {item}
+              </Text>
+            ) : occupied.includes(item) ? (
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: '500',
+                  backgroundColor: 'gray',
                 }}>
                 {item}
               </Text>
