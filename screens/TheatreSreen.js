@@ -20,6 +20,18 @@ const TheatreSreen = () => {
     }
   };
 
+  const showSelectedSeats = () => {
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {seats.map((seat, index) => (
+          <Text style={{marginTop: 4, fontSize: 17, paddingHorizontal: 4}}>
+            {seat}
+          </Text>
+        ))}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView>
       <View
@@ -85,15 +97,24 @@ const TheatreSreen = () => {
             onPress={() => OnSeatSelected(item)}
             style={{
               margin: 12,
-              borderColor: 'red',
+              backgroundColor: seats.includes(item) ? 'orange' : null,
               borderWidth: 1,
               padding: 6,
               borderRadius: 6,
             }}
             key={index}>
-            <Text style={{fontSize: 15, fontWeight: '500', color: 'red'}}>
-              {item}
-            </Text>
+            {seats.includes(item) ? (
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: '500',
+                  backgroundColor: 'orange',
+                }}>
+                {item}
+              </Text>
+            ) : (
+              <Text style={{fontSize: 15, fontWeight: '500'}}>{item}</Text>
+            )}
           </Pressable>
         )}></FlatList>
       <View
@@ -172,9 +193,13 @@ const TheatreSreen = () => {
           <Text style={{fontSize: 18, fontWeight: '500'}}>
             Show end time approx
           </Text>
-          <Text style={{fontSize: 20, fontWeight: '500', color: 'gray'}}>
-            No Seats slected
-          </Text>
+          {seats.length > 0 ? (
+            showSelectedSeats()
+          ) : (
+            <Text style={{fontSize: 20, fontWeight: '500', color: 'gray'}}>
+              No Seats slected
+            </Text>
+          )}
         </View>
         <View
           style={{
@@ -197,7 +222,11 @@ const TheatreSreen = () => {
           justifyContent: 'space-between',
           marginVertical: 30,
         }}>
-        <Text></Text>
+        {seats.length > 0 ? (
+          <Text style={{fontSize: 22, fontWeight: '600', color: 'white'}}>
+            {seats.length} seats selected
+          </Text>
+        ) : null}
         <Pressable>
           <Text style={{fontSize: 22, fontWeight: '600', color: 'white'}}>
             Pay 0
