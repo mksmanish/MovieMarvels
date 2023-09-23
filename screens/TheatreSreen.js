@@ -10,6 +10,10 @@ const TheatreSreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const {seats, setSeats} = useContext(MoviesCards);
+  const fee = 90;
+  const noOfSeats = seats.length;
+  const total = fee * noOfSeats;
+  console.log(total);
 
   const OnSeatSelected = item => {
     const seatSelected = seats.find(seat => seat === item);
@@ -191,12 +195,12 @@ const TheatreSreen = () => {
         }}>
         <View style={{padding: 10}}>
           <Text style={{fontSize: 18, fontWeight: '500'}}>
-            Show end time approx
+            Show end time approx {route.params?.timeSelected}
           </Text>
           {seats.length > 0 ? (
             showSelectedSeats()
           ) : (
-            <Text style={{fontSize: 20, fontWeight: '500', color: 'gray'}}>
+            <Text style={{fontSize: 20, fontWeight: '500', color: '#D3D3D3'}}>
               No Seats slected
             </Text>
           )}
@@ -229,7 +233,7 @@ const TheatreSreen = () => {
         ) : null}
         <Pressable>
           <Text style={{fontSize: 22, fontWeight: '600', color: 'white'}}>
-            Pay 0
+            Pay {total}
           </Text>
         </Pressable>
       </Pressable>

@@ -121,7 +121,7 @@ const MovieScreen = () => {
                         mall: mall,
                         name: route.params?.movies?.name,
                         timeSelected: item,
-                        selectedDate: selectedDate,
+                        selectedDate: selectedDate.toISOString(),
                         tableSeats: seatsData,
                       });
                     }
@@ -133,7 +133,7 @@ const MovieScreen = () => {
                     width: 100,
                     borderRadius: 5,
                     margin: 5,
-                    padding: 5,
+                    padding: 10,
                     marginTop: 20,
                   }}>
                   <Text
