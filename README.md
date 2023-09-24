@@ -1,4 +1,5 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<img width="875" alt="Screenshot 2023-08-31 at 5 20 58 PM" src="https://github.com/mksmanish/MovieMarvels/assets/30216938/436f1f82-59c1-4e14-98f5-e7ca82c374b4">
 
 # Getting Started
 
